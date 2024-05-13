@@ -1,0 +1,9 @@
+---
+
+- name: Deploy server
+  hosts: servers
+  become: yes
+
+  roles:
+    - role: deploy_server
+    - role: deploy_ELK

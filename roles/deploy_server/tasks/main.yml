@@ -1,0 +1,29 @@
+---
+# tasks file for deploy_server
+# Sorry, but it's done on Ubuntu 20.04. RuVDS don't give me access to Ubuntu 18.04.
+
+- name: Install packages
+  apt:
+    update_cache: true
+    name: "{{ item }}"
+    state: present
+  loop:
+    - nmap
+    - traceroute
+    - vim
+    - curl
+    - htop
+
+- name: Change config
+  copy:
+    src: resolv.conf
+    dest: "/etc/resolv.conf"
+
+- name: Update DNS
+  systemd:
+    name: systemd-resolved
+    state: "restarted"
+
+- name: Reboot system
+  reboot:
+    reboot_timeout: 4000
